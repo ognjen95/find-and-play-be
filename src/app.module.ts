@@ -1,32 +1,52 @@
-import { ApolloDriver } from '@nestjs/apollo';
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { TypeOrmModule } from '@nestjs/typeorm';
+import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
+import { ConfigModule } from '@nestjs/config';
+import { UsersModule } from './users/user.module';
 import { join } from 'path';
-
-import { UsersModule } from './users/users.module';
-import { SportsModule } from './sports/sports.module';
-import { EventsModule } from './events/events.module';
+import { PrismaModule } from './database/prisma.module';
 
 @Module({
   imports: [
-    UsersModule,
-    SportsModule,
-    GraphQLModule.forRoot({
+    GraphQLModule.forRoot<ApolloDriverConfig>({
       driver: ApolloDriver,
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
+      sortSchema: true,
+      cors: {
+        origin: ['http://localhost:3000', 'https://dev.un1flix.com'],
+        methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
+        credentials: true,
+        preflightContinue: false,
+        optionsSuccessStatus: 200,
+        allowedHeaders: [
+          'Content-Type',
+          'Accept',
+          'Authorization',
+          'Access-Control-Allow-Credentials',
+          'Access-Control-Allow-Origin',
+          'Origin',
+          'Access-Control-Allow-Methods',
+        ],
+      },
+      installSubscriptionHandlers: true,
+      subscriptions: {
+        'graphql-ws': true,
+        'subscriptions-transport-ws': true,
+      },
     }),
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5434,
-      username: 'fap',
-      password: 'asdasd123...',
-      database: 'find-and-play-db',
-      entities: ['dist/**/*.entity{.ts,.js}'],
-      synchronize: true,
-    }),
-    EventsModule,
+    ConfigModule.forRoot({ isGlobal: true }),
+    UsersModule,
+    PrismaModule,
   ],
+  // providers: [
+  //   {
+  //     provide: APP_GUARD,
+  //     useClass: AtGuard,
+  //   },
+  //   {
+  //     provide: 'PUB_SUB',
+  //     useValue: new PubSub(),
+  //   },
+  // ],
 })
 export class AppModule {}

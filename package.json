@@ -1,7 +1,7 @@
 {
-  "name": "find-and-play",
+  "name": "find-and-play-be",
   "version": "0.0.1",
-  "description": "",
+  "description": "<p align=\"center\">\r   <a href=\"http://nestjs.com/\" target=\"blank\"><img src=\"https://nestjs.com/img/logo-small.svg\" width=\"200\" alt=\"Nest Logo\" /></a>\r </p>",
   "author": "",
   "private": true,
   "license": "UNLICENSED",
@@ -23,17 +23,21 @@
   "dependencies": {
     "@nestjs/apollo": "^10.0.17",
     "@nestjs/common": "^8.4.7",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^8.0.0",
+    "@nestjs/cqrs": "^9.0.1",
     "@nestjs/graphql": "^10.0.18",
     "@nestjs/platform-express": "^8.0.0",
     "@nestjs/typeorm": "^9.0.0",
+    "@prisma/client": "^4.7.1",
     "apollo-server-express": "^3.10.0",
     "graphql": "^16.5.0",
     "pg": "^8.7.3",
+    "prisma": "^4.7.1",
     "reflect-metadata": "^0.1.13",
     "rimraf": "^3.0.2",
     "rxjs": "^7.2.0",
-    "typeorm": "^0.3.7"
+    "typeorm": "^0.3.10"
   },
   "devDependencies": {
     "@nestjs/cli": "^8.0.0",
@@ -74,5 +78,17 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "main": ".eslintrc.js",
+  "directories": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ognjen95/find-and-play.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ognjen95/find-and-play/issues"
+  },
+  "homepage": "https://github.com/ognjen95/find-and-play#readme"
 }

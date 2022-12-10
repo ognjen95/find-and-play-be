@@ -2,104 +2,53 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
-type Sport {
-  id: String!
-  name: String!
-  image: String!
-}
-
-type Event {
-  id: String!
-  name: String!
-  location: String!
-  sport: Sport!
-  maxNumOfParticipants: Float!
-  currentNumOfParticipants: Float!
-  participantIds: [String!]!
-  participants: [User!]
-}
-
-type User {
-  id: String!
-  firstName: String!
-  lastName: String!
-  username: String!
+input CreateUserInput {
+  description: String!
   email: String!
-  password: String!
-  location: String!
-  rating: Float!
-  playedEvents: Float!
-  interests: [String!]!
-  events: [Event!]
+  firstName: String!
+  image: String
+  lastName: String!
+  location: LocationInput!
+  sports: [String!]!
 }
 
-type Query {
-  users: [User!]!
-  user(id: String!): User!
-  sports: [Sport!]!
-  sport(id: String!): Sport!
-  events: [Event!]!
-  event(id: Int!): Event!
+"""
+A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date-time format.
+"""
+scalar DateTime
+
+input LocationInput {
+  city: String
+  lat: Float!
+  lng: Float!
+  state: String
+}
+
+type LocationModel {
+  city: String
+  lat: Float!
+  lng: Float!
+  state: String
 }
 
 type Mutation {
-  createUser(createUserInput: CreateUserInput!): User!
-  updateUser(updateUserInput: UpdateUserInput!): User!
-  removeUser(id: String!): User!
-  createSport(createSportInput: CreateSportInput!): Sport!
-  updateSport(updateSportInput: UpdateSportInput!): Sport!
-  removeSport(id: String!): Sport!
-  createEvent(createEventInput: CreateEventInput!): Event!
-  updateEvent(updateEventInput: UpdateEventInput!): Event!
-  removeEvent(id: Int!): Event!
+  createUser(CreateUserInput: CreateUserInput!): UserModel!
 }
 
-input CreateUserInput {
-  firstName: String!
-  lastName: String!
-  username: String!
+type Query {
+  user(email: String!): UserModel!
+}
+
+type UserModel {
+  createdAt: DateTime!
+  description: String!
   email: String!
-  password: String!
-  location: String!
-  interests: [String!]!
-}
-
-input UpdateUserInput {
-  firstName: String
-  lastName: String
-  username: String
-  email: String
-  password: String
-  location: String
-  interests: [String!]
+  firstName: String!
   id: String!
-}
-
-input CreateSportInput {
-  name: String!
-  image: String!
-}
-
-input UpdateSportInput {
-  name: String
   image: String
-  id: String!
-}
-
-input CreateEventInput {
-  name: String!
-  location: String!
-  sportName: String!
-  maxNumOfParticipants: Float!
-  currentNumOfParticipants: Float!
-}
-
-input UpdateEventInput {
-  name: String
-  location: String
-  sportName: String
-  maxNumOfParticipants: Float
-  currentNumOfParticipants: Float
-  id: String!
-  participantId: String!
+  lastName: String!
+  location: LocationModel!
+  reliability: Int!
+  sports: [String!]!
+  stamina: Int!
 }

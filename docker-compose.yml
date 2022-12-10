@@ -3,22 +3,8 @@ services:
   dev-db:
     image: postgres:13
     ports:
-      - 5434:5432
+      - 5432:5432
     environment:
-      POSTGRES_USER: fap
-      POSTGRES_PASSWORD: asdasd123...
-      POSTGRES_DB: find-and-play-db
-    networks:
-      - find-and-play
-  test-db:
-    image: postgres:13
-    ports:
-      - 5435:5432
-    environment:
-      POSTGRES_USER: fap
-      POSTGRES_PASSWORD: asdasd123...
-      POSTGRES_DB: find-and-play-db
-    networks:
-      - find-and-play
-networks:
-  find-and-play:
+      POSTGRES_USER: findandplay
+      POSTGRES_PASSWORD: fap123...
+      POSTGRES_DB: findandplay_db
