@@ -15,8 +15,9 @@ model User {
   firstName   String
   lastName    String
   email       String
-  description String
-  image       String @default("")
+  password    String
+  description String   @default("")
+  image       String   @default("")
   createdAt   DateTime @default(now())
   locationId  String
   reliability Int      @default(100)
@@ -27,6 +28,8 @@ model User {
   // sports   Sport[]
   location Location @relation(references: [id], fields: [locationId])
   events   Event[]
+
+  @@unique([email])
 }
 
 model Location {

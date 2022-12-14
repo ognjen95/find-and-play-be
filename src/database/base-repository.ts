@@ -1,8 +1,8 @@
 import { Inject, NotFoundException } from '@nestjs/common';
 import { AggregateRoot } from '@nestjs/cqrs';
-import { IBaseRepository } from './baseRepositoryInterface';
-import { EntitySchemaFactory } from './EntitySchemaFactory';
-import { IdentifiableEntitySchema } from './identifiableEntitySchema';
+import { IBaseRepository } from './base-repository.interface';
+import { EntitySchemaFactory } from './model-schema.factory';
+import { IdentifiableEntitySchema } from './identifiable-model-schema';
 import { PrismaService } from './prisma.service';
 
 export abstract class BaseRepository<

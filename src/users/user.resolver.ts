@@ -1,14 +1,12 @@
+import User from './User';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { UserModel } from './repository/user.model';
 import { CreateUserCommand } from './commands/create-user/create-user.command';
-import User from './User';
 import { CreateUserInput } from './repository/user.args';
-// import { CreateUserCommand } from './commands/create-user/create-user.command';
-// import { User, UserArgs } from './repository/user.schema';
-// import { GetUserByIdQuery } from './queries/get-user-by-id/get-user-by-id.query';
-// import { GetUserByEmailQuery } from './queries/get-user-by-email/get-user-by-email.query';
-// import { IsPublic } from 'src/common/decorators/isPublic';
+import { FindManyUsersQuery } from './queries/find-many-users/find-many-users.query';
+import { FindUserByEmailQuery } from './queries/find-user-by-email/find-user-by-email.query';
+import { FindUserByIdQuery } from './queries/find-user-by-id/find-user-by-id.query';
 
 @Resolver(() => UserModel)
 export class UserResolver {
@@ -24,18 +22,24 @@ export class UserResolver {
     );
   }
 
-  @Query(() => UserModel, { name: 'user' })
-  async findOne(@Args('email') email: string) {
-    console.log(email);
-    // return await this.queryBus.execute<GetUserByEmailQuery, User>(
-    //   new GetUserByEmailQuery(email),
-    // );
+  @Query(() => [UserModel], { name: 'getManyUsers' })
+  async findMany() {
+    return await this.queryBus.execute<FindManyUsersQuery, User>(
+      new FindManyUsersQuery(),
+    );
   }
 
-  // @Query(() => UserModel, { name: 'getUserById' })
-  // async findOneById(@Args('id') id: string) {
-  //   return await this.queryBus.execute<GetUserByIdQuery, User>(
-  //     new GetUserByIdQuery(id),
-  //   );
-  // }
+  @Query(() => UserModel, { name: 'getUserByEmail' })
+  async findByEmail(@Args('email') email: string) {
+    return await this.queryBus.execute<FindUserByEmailQuery, User>(
+      new FindUserByEmailQuery(email),
+    );
+  }
+
+  @Query(() => UserModel, { name: 'getUserById' })
+  async findById(@Args('id') id: string) {
+    return await this.queryBus.execute<FindUserByIdQuery, User>(
+      new FindUserByIdQuery(id),
+    );
+  }
 }

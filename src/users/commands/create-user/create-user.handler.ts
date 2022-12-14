@@ -3,13 +3,28 @@ import { IUserRepository } from 'src/users/repository/user.repository.interface'
 import { CreateUserCommand } from './create-user.command';
 import { v4 as uuid } from 'uuid';
 import User from 'src/users/User';
+import { BadRequestException } from '@nestjs/common';
 
 @CommandHandler(CreateUserCommand)
 class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
   constructor(private readonly userRepository: IUserRepository) {}
 
   async execute({ dto }: CreateUserCommand): Promise<User> {
-    const { firstName, lastName, email, description, sports, location } = dto;
+    const {
+      firstName,
+      lastName,
+      email,
+      description,
+      sports,
+      location,
+      password,
+    } = dto;
+
+    const userExists = await this.userRepository.findOneByEmail(email);
+
+    if (userExists) {
+      throw new BadRequestException('User with this email already exists');
+    }
 
     return await this.userRepository.createOne(
       new User(
@@ -17,6 +32,7 @@ class CreateUserHandler implements ICommandHandler<CreateUserCommand> {
         firstName,
         lastName,
         email,
+        password,
         description,
         sports,
         location,

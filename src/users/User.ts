@@ -10,11 +10,14 @@ export default class User extends AggregateRoot {
     private readonly firstName: string,
     private readonly lastName: string,
     private readonly email: string,
+    private readonly password: string,
     private readonly description: string,
     private readonly sports: string[],
     private readonly location: {
       lng: number;
       lat: number;
+      city: string;
+      state: string;
     },
   ) {
     super();
@@ -33,6 +36,9 @@ export default class User extends AggregateRoot {
   }
   getEmail(): string {
     return this.email;
+  }
+  getPassword(): string {
+    return this.password;
   }
   getDescription(): string {
     return this.description;
@@ -55,6 +61,8 @@ export default class User extends AggregateRoot {
   getLocation(): {
     lng: number;
     lat: number;
+    city: string;
+    state: string;
   } {
     return {
       ...this.location,

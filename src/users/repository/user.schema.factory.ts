@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { EntitySchemaFactory } from 'src/database/EntitySchemaFactory';
+import { EntitySchemaFactory } from 'src/database/model-schema.factory';
 import User from '../User';
 import { UserModel } from './user.model';
 
@@ -11,6 +11,7 @@ export class UserSchemaFactory implements EntitySchemaFactory<UserModel, User> {
       firstName: user.getFirstName(),
       lastName: user.getLastName(),
       email: user.getEmail(),
+      password: user.getPassword(),
       description: user.getDescription(),
       sports: user.getSports(),
       location: user.getLocation(),
@@ -27,6 +28,7 @@ export class UserSchemaFactory implements EntitySchemaFactory<UserModel, User> {
       userModel.firstName,
       userModel.lastName,
       userModel.email,
+      userModel.password,
       userModel.description,
       userModel.sports,
       userModel.location,

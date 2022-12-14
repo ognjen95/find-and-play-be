@@ -1,5 +1,5 @@
 import { AggregateRoot } from '@nestjs/cqrs';
-import { IdentifiableEntitySchema } from './identifiableEntitySchema';
+import { IdentifiableEntitySchema } from './identifiable-model-schema';
 
 export interface EntitySchemaFactory<
   TSchema extends IdentifiableEntitySchema,

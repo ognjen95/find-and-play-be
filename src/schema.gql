@@ -9,6 +9,7 @@ input CreateUserInput {
   image: String
   lastName: String!
   location: LocationInput!
+  password: String!
   sports: [String!]!
 }
 
@@ -36,7 +37,9 @@ type Mutation {
 }
 
 type Query {
-  user(email: String!): UserModel!
+  getManyUsers: [UserModel!]!
+  getUserByEmail(email: String!): UserModel!
+  getUserById(id: String!): UserModel!
 }
 
 type UserModel {
@@ -47,8 +50,9 @@ type UserModel {
   id: String!
   image: String
   lastName: String!
-  location: LocationModel!
-  reliability: Int!
+  location: LocationModel
+  password: String!
+  reliability: Int
   sports: [String!]!
-  stamina: Int!
+  stamina: Int
 }

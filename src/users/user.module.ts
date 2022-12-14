@@ -1,6 +1,7 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule, EventPublisher } from '@nestjs/cqrs';
-import { CommandHandlers } from './commands';
+import { UserCommandHandlers } from './commands';
+import { UserQueryHandlers } from './queries';
 import { UserRepository } from './repository/user.repository';
 import { UserSchemaFactory } from './repository/user.schema.factory';
 import { UserResolver } from './user.resolver';
@@ -12,8 +13,8 @@ import { UserResolver } from './user.resolver';
     UserRepository,
     UserResolver,
     UserSchemaFactory,
-    ...CommandHandlers,
-    // ...QueryHandlers,
+    ...UserCommandHandlers,
+    ...UserQueryHandlers,
     // ...EventHandlers,
   ],
 })

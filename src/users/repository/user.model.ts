@@ -7,9 +7,9 @@ export class LocationModel {
   @Field(() => Float)
   lat: number;
   @Field({ nullable: true })
-  city?: string;
+  city: string;
   @Field({ nullable: true })
-  state?: string;
+  state: string;
 }
 
 @ObjectType()
@@ -30,6 +30,9 @@ export class UserModel {
   image: string;
 
   @Field()
+  password: string;
+
+  @Field()
   description: string;
 
   @Field(() => [String])
@@ -38,13 +41,13 @@ export class UserModel {
   @Field()
   createdAt: Date;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   reliability: number;
 
-  @Field(() => Int)
+  @Field(() => Int, { nullable: true })
   stamina: number;
 
-  @Field(() => LocationModel)
+  @Field(() => LocationModel, { nullable: true })
   location: LocationModel;
 
   //   @Field(() => [Events])

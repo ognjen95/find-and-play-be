@@ -1,6 +1,6 @@
 import User from '../User';
 import { Injectable } from '@nestjs/common';
-import { BaseRepository } from 'src/database/baseRepository';
+import { BaseRepository } from 'src/database/base-repository';
 import { UserModel } from './user.model';
 import { UserSchemaFactory } from './user.schema.factory';
 
@@ -13,36 +13,61 @@ export class UserRepository extends BaseRepository<UserModel, User> {
   async createOne(user: User): Promise<User> {
     const data = this.entitySchemaFactory.create(user);
 
-    const entityDocument = await this.prismaService[this.tableName].create({
+    const entityDocument = await this.prismaService.user.create({
       data: {
-        ...user,
+        ...data,
         location: {
           create: data.location,
         },
       },
+      include: {
+        location: true,
+      },
     });
 
-    return entityDocument;
+    return this.entitySchemaFactory.createFromSchema(entityDocument);
   }
 
-  // async findOneByEmail(email: string): Promise<User> {
-  //   const entityDocument = await this.prismaService[this.tableName].findUnique({
-  //     where: { email },
-  //     include: {
-  //       votes: {
-  //         select: { id: true, movieId: true, user: true, userId: true },
-  //       },
-  //     },
-  //   });
+  async findManyUsers(): Promise<User[]> {
+    const entityDocument = await this.prismaService.user.findMany({
+      include: {
+        location: true,
+      },
+      orderBy: [
+        {
+          createdAt: 'desc',
+        },
+      ],
+    });
 
-  //   if (!entityDocument) {
-  //     this.notFoundError();
-  //   }
+    return entityDocument.map((user) =>
+      this.entitySchemaFactory.createFromSchema(user),
+    );
+  }
 
-  //   return entityDocument;
-  // }
+  async findOneByEmail(email: string): Promise<User | null> {
+    const entityDocument = await this.prismaService.user.findUnique({
+      where: { email },
+      include: {
+        location: true,
+      },
+    });
 
-  // async findOneById(id: string): Promise<User> {
-  //   return this.findById(id);
-  // }
+    if (!entityDocument) return null;
+
+    return this.entitySchemaFactory.createFromSchema(entityDocument);
+  }
+
+  async findOneById(id: string): Promise<User | null> {
+    const entityDocument = await this.prismaService.user.findUnique({
+      where: { id },
+      include: {
+        location: true,
+      },
+    });
+
+    if (!entityDocument) return null;
+
+    return this.entitySchemaFactory.createFromSchema(entityDocument);
+  }
 }
