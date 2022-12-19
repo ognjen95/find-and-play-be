@@ -1,4 +1,4 @@
-import { UserRepository } from '../repository/user.repository';
+import { UserRepository } from '../../infrastructure/repository/user/user.repository';
 import FindManyUsersHandler from './find-many-users/find-many-users.handler';
 import FindUserByEmailHandler from './find-user-by-email/find-user-by-email.handler';
 import FindUserByIdHandler from './find-user-by-id/find-user-by-id.handler';

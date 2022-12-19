@@ -1,4 +1,4 @@
-import { UserRepository } from '../repository/user.repository';
+import { UserRepository } from '../../../infrastructure/repository/user/user.repository';
 import CreateUserHandler from './create-user/create-user.handler';
 
 export const UserCommandHandlers = [

@@ -1,6 +1,6 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IUserRepository } from 'src/users/repository/user.repository.interface';
-import User from 'src/users/User';
+import { IUserRepository } from 'src/application/interfaces/user/user.repository.interface';
+import User from 'src/domain/user/User';
 import { FindManyUsersQuery } from './find-many-users.query';
 
 @QueryHandler(FindManyUsersQuery)

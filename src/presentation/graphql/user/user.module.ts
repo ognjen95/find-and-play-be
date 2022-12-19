@@ -1,9 +1,9 @@
 import { Module } from '@nestjs/common';
 import { CqrsModule, EventPublisher } from '@nestjs/cqrs';
-import { UserCommandHandlers } from './commands';
-import { UserQueryHandlers } from './queries';
-import { UserRepository } from './repository/user.repository';
-import { UserSchemaFactory } from './repository/user.schema.factory';
+import { UserCommandHandlers } from '../../../application/commands/user';
+import { UserQueryHandlers } from '../../../application/queries';
+import { UserRepository } from '../../../infrastructure/repository/user/user.repository';
+import { UserSchemaFactory } from '../../../infrastructure/repository/user/user.schema.factory';
 import { UserResolver } from './user.resolver';
 
 @Module({

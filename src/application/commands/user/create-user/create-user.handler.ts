@@ -1,8 +1,8 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IUserRepository } from 'src/users/repository/user.repository.interface';
+import { IUserRepository } from 'src/application/interfaces/user/user.repository.interface';
 import { CreateUserCommand } from './create-user.command';
 import { v4 as uuid } from 'uuid';
-import User from 'src/users/User';
+import User from 'src/domain/user/User';
 import { BadRequestException } from '@nestjs/common';
 
 @CommandHandler(CreateUserCommand)

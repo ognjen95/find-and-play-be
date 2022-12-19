@@ -1,7 +1,7 @@
-import User from '../User';
+import User from '../../../domain/user/User';
 import { Injectable } from '@nestjs/common';
-import { BaseRepository } from 'src/database/base-repository';
-import { UserModel } from './user.model';
+import { BaseRepository } from 'src/infrastructure/repository/common/base-repository';
+import { UserModel } from '../../../presentation/graphql/user/user.model';
 import { UserSchemaFactory } from './user.schema.factory';
 
 @Injectable()

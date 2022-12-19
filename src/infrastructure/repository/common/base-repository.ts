@@ -3,7 +3,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import { IBaseRepository } from './base-repository.interface';
 import { EntitySchemaFactory } from './model-schema.factory';
 import { IdentifiableEntitySchema } from './identifiable-model-schema';
-import { PrismaService } from './prisma.service';
+import { PrismaService } from '../../prisma/prisma.service';
 
 export abstract class BaseRepository<
   TSchema extends IdentifiableEntitySchema,

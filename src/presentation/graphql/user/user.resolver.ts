@@ -1,12 +1,12 @@
-import User from './User';
+import User from '../../../domain/user/User';
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-import { UserModel } from './repository/user.model';
-import { CreateUserCommand } from './commands/create-user/create-user.command';
-import { CreateUserInput } from './repository/user.args';
-import { FindManyUsersQuery } from './queries/find-many-users/find-many-users.query';
-import { FindUserByEmailQuery } from './queries/find-user-by-email/find-user-by-email.query';
-import { FindUserByIdQuery } from './queries/find-user-by-id/find-user-by-id.query';
+import { UserModel } from './user.model';
+import { CreateUserCommand } from '../../../application/commands/user/create-user/create-user.command';
+import { CreateUserInput } from './user.args';
+import { FindManyUsersQuery } from '../../../application/queries/find-many-users/find-many-users.query';
+import { FindUserByEmailQuery } from '../../../application/queries/find-user-by-email/find-user-by-email.query';
+import { FindUserByIdQuery } from '../../../application/queries/find-user-by-id/find-user-by-id.query';
 
 @Resolver(() => UserModel)
 export class UserResolver {
