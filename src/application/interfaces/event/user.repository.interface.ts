@@ -3,4 +3,5 @@ import Event from '../../../domain/Event/Event';
 
 export interface IEventRepository extends IBaseRepository<Event> {
   createOne(dto: Event): Promise<Event>;
+  findManyEvents(): Promise<Event[]>;
 }

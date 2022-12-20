@@ -1,9 +1,9 @@
 import { Args, Mutation, Query, Resolver } from '@nestjs/graphql';
 import { CommandBus, QueryBus } from '@nestjs/cqrs';
-
 import { EventModel } from '../models/event.model';
 import { CreateEventInput } from '../dtos/event/create-event-input.dto';
 import { CreateEventCommand } from 'src/application/commands/event/create-event/create-event.command';
+import { FindManyEventsQuery } from 'src/application/queries/event/find-many-events.ts/find-many-users.query';
 
 @Resolver(() => EventModel)
 export class EventResolver {
@@ -21,6 +21,8 @@ export class EventResolver {
 
   @Query(() => [EventModel], { name: 'getManyEvents' })
   async findMany() {
-    console.log('query');
+    return await this.queryBus.execute<FindManyEventsQuery, Event>(
+      new FindManyEventsQuery(),
+    );
   }
 }

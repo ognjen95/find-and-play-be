@@ -29,4 +29,16 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
 
     return this.entitySchemaFactory.createFromSchema(entityDocument);
   }
+  async findManyEvents(): Promise<Event[]> {
+    const data = await this.prismaService.event.findMany({
+      include: {
+        location: true,
+        participants: true,
+      },
+    });
+
+    return data.map((event) =>
+      this.entitySchemaFactory.createFromSchema(event),
+    );
+  }
 }

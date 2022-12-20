@@ -4,9 +4,9 @@ import { CommandBus, QueryBus } from '@nestjs/cqrs';
 import { UserModel } from '../models/user.model';
 import { CreateUserCommand } from '../../../application/commands/user/create-user/create-user.command';
 import { CreateUserInput } from '../dtos/user/user-input.dto';
-import { FindManyUsersQuery } from '../../../application/queries/find-many-users/find-many-users.query';
-import { FindUserByEmailQuery } from '../../../application/queries/find-user-by-email/find-user-by-email.query';
-import { FindUserByIdQuery } from '../../../application/queries/find-user-by-id/find-user-by-id.query';
+import { FindManyUsersQuery } from '../../../application/queries/user/find-many-users/find-many-users.query';
+import { FindUserByEmailQuery } from '../../../application/queries/user/find-user-by-email/find-user-by-email.query';
+import { FindUserByIdQuery } from '../../../application/queries/user/find-user-by-id/find-user-by-id.query';
 
 @Resolver(() => UserModel)
 export class UserResolver {

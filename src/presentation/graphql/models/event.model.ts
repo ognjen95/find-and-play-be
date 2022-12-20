@@ -1,7 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
-import User from 'src/domain/user/User';
 import { LocationModel } from './location.model';
-import { UserModel } from './user.model';
 
 @ObjectType()
 export class EventModel {
