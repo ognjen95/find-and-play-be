@@ -2,6 +2,15 @@
 # THIS FILE WAS AUTOMATICALLY GENERATED (DO NOT MODIFY)
 # ------------------------------------------------------
 
+input CreateEventInput {
+  description: String!
+  endTime: DateTime!
+  location: LocationInput!
+  name: String!
+  sports: [String!]!
+  startTime: DateTime!
+}
+
 input CreateUserInput {
   description: String!
   email: String!
@@ -18,6 +27,18 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 """
 scalar DateTime
 
+type EventModel {
+  createdAt: DateTime!
+  description: String!
+  endTime: DateTime!
+  id: String!
+  image: String
+  location: LocationModel!
+  name: String!
+  sports: [String!]!
+  startTime: DateTime!
+}
+
 input LocationInput {
   city: String
   lat: Float!
@@ -33,10 +54,12 @@ type LocationModel {
 }
 
 type Mutation {
+  createEvent(CreateEventInput: CreateEventInput!): EventModel!
   createUser(CreateUserInput: CreateUserInput!): UserModel!
 }
 
 type Query {
+  getManyEvents: [EventModel!]!
   getManyUsers: [UserModel!]!
   getUserByEmail(email: String!): UserModel!
   getUserById(id: String!): UserModel!

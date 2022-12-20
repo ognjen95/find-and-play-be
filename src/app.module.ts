@@ -5,6 +5,7 @@ import { ConfigModule } from '@nestjs/config';
 import { UsersModule } from './presentation/graphql/modules/user.module';
 import { join } from 'path';
 import { PrismaModule } from './infrastructure/prisma/prisma.module';
+import { EventsModule } from './presentation/graphql/modules/event.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { PrismaModule } from './infrastructure/prisma/prisma.module';
     }),
     ConfigModule.forRoot({ isGlobal: true }),
     UsersModule,
+    EventsModule,
     PrismaModule,
   ],
   // providers: [

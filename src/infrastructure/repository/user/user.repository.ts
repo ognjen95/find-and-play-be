@@ -3,9 +3,13 @@ import { Injectable } from '@nestjs/common';
 import { BaseRepository } from 'src/infrastructure/repository/common/base-repository';
 import { UserModel } from '../../../presentation/graphql/models/user.model';
 import { UserSchemaFactory } from './user.schema.factory';
+import { IUserRepository } from 'src/application/interfaces/user/user.repository.interface';
 
 @Injectable()
-export class UserRepository extends BaseRepository<UserModel, User> {
+export class UserRepository
+  extends BaseRepository<UserModel, User>
+  implements IUserRepository
+{
   constructor(userSchemaFactory: UserSchemaFactory) {
     super('user', userSchemaFactory);
   }

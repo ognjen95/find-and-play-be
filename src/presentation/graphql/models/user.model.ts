@@ -38,10 +38,4 @@ export class UserModel {
 
   @Field(() => LocationModel, { nullable: true })
   location: LocationModel;
-
-  //   @Field(() => [Events])
-  //   events: Event[];
-
-  //   @Field(() => [Clubs])
-  //   clubs: Clubs[];
 }

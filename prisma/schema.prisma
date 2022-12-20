@@ -40,29 +40,29 @@ model Location {
   state  String?
   users  User[]
   sports Sport[]
+  Event  Event[]
 }
 
 model Sport {
   id        String     @id @default(uuid())
   name      String
-  // users     User[]
-  events    Event[]
+  // events    Event[]
   clubs     Club[]
   locations Location[]
 }
 
 model Event {
-  id          String   @id @default(uuid())
-  name        String
-  description String
-  createdAt   DateTime @default(now())
-  maxPlayers  Int
-  players     User[]
-  startTime   DateTime
-  endTime     DateTime
-  locationId  String
-  interests   Sport[]
-  creatorId   String
+  id           String   @id @default(uuid())
+  name         String
+  description  String
+  image        String?
+  createdAt    DateTime @default(now())
+  participants User[]
+  startTime    DateTime
+  endTime      DateTime
+  sports       String[]
+  location     Location @relation(fields: [locationId], references: [id])
+  locationId   String
 }
 
 model Club {
@@ -71,7 +71,7 @@ model Club {
   description String
   createdAt   DateTime @default(now())
   locationId  String
-  interests   Sport[]
+  sports      Sport[]
   players     User[]
   creatorId   String
 }

@@ -1,12 +1,10 @@
 import { LocationDto } from '../location/location.dto';
 
-export class CreateUserDto {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+export class CreateEventDto {
+  name: string;
   description: string;
-  image?: string;
   sports: string[];
+  startTime: Date;
+  endTime: Date;
   location: LocationDto;
 }
