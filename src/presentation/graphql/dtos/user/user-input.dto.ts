@@ -1,4 +1,4 @@
-import { Field, Float, InputType } from '@nestjs/graphql';
+import { Field, InputType } from '@nestjs/graphql';
 import {
   IsEmail,
   IsNotEmpty,
@@ -6,18 +6,7 @@ import {
   IsOptional,
   IsString,
 } from 'class-validator';
-
-@InputType()
-export class LocationInput {
-  @Field(() => Float)
-  lng: number;
-  @Field(() => Float)
-  lat: number;
-  @Field({ nullable: true })
-  city: string;
-  @Field({ nullable: true })
-  state: string;
-}
+import { LocationInput } from '../location/location-input.dto';
 
 @InputType()
 export class CreateUserInput {

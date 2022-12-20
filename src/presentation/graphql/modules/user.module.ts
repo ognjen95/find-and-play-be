@@ -4,7 +4,7 @@ import { UserCommandHandlers } from '../../../application/commands/user';
 import { UserQueryHandlers } from '../../../application/queries';
 import { UserRepository } from '../../../infrastructure/repository/user/user.repository';
 import { UserSchemaFactory } from '../../../infrastructure/repository/user/user.schema.factory';
-import { UserResolver } from './user.resolver';
+import { UserResolver } from '../resolvers/user.resolver';
 
 @Module({
   imports: [CqrsModule],

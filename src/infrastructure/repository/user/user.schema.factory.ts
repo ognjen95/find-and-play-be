@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { EntitySchemaFactory } from 'src/infrastructure/repository/common/model-schema.factory';
 import User from '../../../domain/user/User';
-import { UserModel } from '../../../presentation/graphql/user/user.model';
+import { UserModel } from '../../../presentation/graphql/models/user.model';
 
 @Injectable()
 export class UserSchemaFactory implements EntitySchemaFactory<UserModel, User> {

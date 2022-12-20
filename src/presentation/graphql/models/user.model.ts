@@ -1,16 +1,5 @@
-import { Field, Float, Int, ObjectType } from '@nestjs/graphql';
-
-@ObjectType()
-export class LocationModel {
-  @Field(() => Float)
-  lng: number;
-  @Field(() => Float)
-  lat: number;
-  @Field({ nullable: true })
-  city: string;
-  @Field({ nullable: true })
-  state: string;
-}
+import { Field, Int, ObjectType } from '@nestjs/graphql';
+import { LocationModel } from './location.model';
 
 @ObjectType()
 export class UserModel {

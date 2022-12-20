@@ -2,7 +2,7 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { ApolloDriver, ApolloDriverConfig } from '@nestjs/apollo';
 import { ConfigModule } from '@nestjs/config';
-import { UsersModule } from './presentation/graphql/user/user.module';
+import { UsersModule } from './presentation/graphql/modules/user.module';
 import { join } from 'path';
 import { PrismaModule } from './infrastructure/prisma/prisma.module';
 
