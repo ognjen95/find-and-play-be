@@ -7,6 +7,7 @@ import { CreateUserInput } from '../dtos/user/user-input.dto';
 import { FindManyUsersQuery } from '../../../application/queries/user/find-many-users/find-many-users.query';
 import { FindUserByEmailQuery } from '../../../application/queries/user/find-user-by-email/find-user-by-email.query';
 import { FindUserByIdQuery } from '../../../application/queries/user/find-user-by-id/find-user-by-id.query';
+import { QueryOptionsInput } from '../dtos/common/query-options.input';
 
 @Resolver(() => UserModel)
 export class UserResolver {
@@ -23,9 +24,12 @@ export class UserResolver {
   }
 
   @Query(() => [UserModel], { name: 'getManyUsers' })
-  async findMany() {
+  async findMany(
+    @Args('QueryOptionsInput', { nullable: true })
+    queryOptions?: QueryOptionsInput,
+  ) {
     return await this.queryBus.execute<FindManyUsersQuery, User>(
-      new FindManyUsersQuery(),
+      new FindManyUsersQuery(queryOptions),
     );
   }
 

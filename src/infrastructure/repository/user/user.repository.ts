@@ -4,6 +4,7 @@ import { BaseRepository } from 'src/infrastructure/repository/common/base-reposi
 import { UserModel } from '../../../presentation/graphql/models/user.model';
 import { UserSchemaFactory } from './user.schema.factory';
 import { IUserRepository } from 'src/application/interfaces/user/user.repository.interface';
+import { QueryOptionsDto } from 'src/application/dtos/common/queryOptions.dto';
 
 @Injectable()
 export class UserRepository
@@ -32,14 +33,53 @@ export class UserRepository
     return this.entitySchemaFactory.createFromSchema(entityDocument);
   }
 
-  async findManyUsers(): Promise<User[]> {
+  async findManyUsers(queryOptions?: QueryOptionsDto): Promise<User[]> {
+    const { search, paginationOptions } = queryOptions || {};
+    const { take, skip, orderBy } = paginationOptions || {};
+
     const entityDocument = await this.prismaService.user.findMany({
+      take,
+      skip,
+      where: {
+        OR: [
+          {
+            firstName: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            email: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            lastName: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            location: {
+              city: {
+                contains: search,
+                mode: 'insensitive',
+              },
+              state: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
+      },
       include: {
         location: true,
       },
       orderBy: [
         {
-          createdAt: 'desc',
+          createdAt: orderBy ?? 'desc',
         },
       ],
     });

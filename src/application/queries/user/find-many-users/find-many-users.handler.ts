@@ -7,8 +7,8 @@ import { FindManyUsersQuery } from './find-many-users.query';
 class FindManyUsersHandler implements IQueryHandler<FindManyUsersQuery> {
   constructor(private readonly userRepository: IUserRepository) {}
 
-  execute(): Promise<User[]> {
-    return this.userRepository.findManyUsers();
+  execute({ queryOptions }: FindManyUsersQuery): Promise<User[]> {
+    return this.userRepository.findManyUsers(queryOptions);
   }
 }
 
