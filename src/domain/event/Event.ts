@@ -2,7 +2,7 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import User from '../user/User';
 
 export default class Event extends AggregateRoot {
-  private readonly participants: User[];
+  private readonly participants?: User[];
   private readonly createdAt: Date;
   private readonly image: string;
   constructor(

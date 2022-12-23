@@ -1,5 +1,6 @@
 import { Field, ObjectType } from '@nestjs/graphql';
 import { LocationModel } from './location.model';
+import { UserModel } from './user.model';
 
 @ObjectType()
 export class EventModel {
@@ -29,4 +30,7 @@ export class EventModel {
 
   @Field(() => LocationModel)
   location: LocationModel;
+
+  @Field(() => [UserModel], { nullable: true })
+  participants?: UserModel[];
 }

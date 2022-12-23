@@ -1,4 +1,4 @@
-import { CreateEventDto } from 'src/application/dto/event/create-event.dto';
+import { CreateEventDto } from 'src/application/dtos/event/create-event.dto';
 
 export class CreateEventCommand {
   constructor(public readonly dto: CreateEventDto) {}

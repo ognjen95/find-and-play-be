@@ -35,6 +35,7 @@ type EventModel {
   image: String
   location: LocationModel!
   name: String!
+  participants: [UserModel!]
   sports: [String!]!
   startTime: DateTime!
 }

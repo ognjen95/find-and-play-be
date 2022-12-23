@@ -23,7 +23,11 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
       },
       include: {
         location: true,
-        participants: true,
+        participants: {
+          include: {
+            location: true,
+          },
+        },
       },
     });
 
@@ -33,7 +37,11 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
     const data = await this.prismaService.event.findMany({
       include: {
         location: true,
-        participants: true,
+        participants: {
+          include: {
+            location: true,
+          },
+        },
       },
     });
 
