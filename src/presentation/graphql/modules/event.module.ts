@@ -4,6 +4,8 @@ import { EventCommandHandlers } from 'src/application/commands/event';
 import { EventQueryHandlers } from 'src/application/queries/event';
 import { EventRepository } from 'src/infrastructure/repository/event/event.repository';
 import { EventSchemaFactory } from 'src/infrastructure/repository/event/event.schema.factory';
+import { UserRepository } from 'src/infrastructure/repository/user/user.repository';
+import { UserSchemaFactory } from 'src/infrastructure/repository/user/user.schema.factory';
 import { EventResolver } from '../resolvers/event.resolver';
 
 @Module({
@@ -11,6 +13,8 @@ import { EventResolver } from '../resolvers/event.resolver';
   providers: [
     EventPublisher,
     EventRepository,
+    UserRepository,
+    UserSchemaFactory,
     EventResolver,
     EventSchemaFactory,
     ...EventCommandHandlers,

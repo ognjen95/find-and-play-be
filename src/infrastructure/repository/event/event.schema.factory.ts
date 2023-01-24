@@ -2,12 +2,17 @@ import { Injectable } from '@nestjs/common';
 import Event from 'src/domain/event/Event';
 import { EntitySchemaFactory } from 'src/infrastructure/repository/common/model-schema.factory';
 import { EventModel } from 'src/presentation/graphql/models/event.model';
+import { UserSchemaFactory } from '../user/user.schema.factory';
 
 @Injectable()
 export class EventSchemaFactory
   implements EntitySchemaFactory<EventModel, Event>
 {
+  constructor(private userSchemaFactory: UserSchemaFactory) {}
+
   create(event: Event): EventModel {
+    const participants = event.getParticipants();
+
     return {
       id: event.getId(),
       name: event.getName(),
@@ -18,6 +23,9 @@ export class EventSchemaFactory
       location: event.getLocation(),
       image: event.getImage(),
       createdAt: event.getCreatedAt(),
+      participants: participants.map((participant) =>
+        this.userSchemaFactory.create(participant),
+      ),
     };
   }
 
@@ -29,8 +37,10 @@ export class EventSchemaFactory
     description,
     sports,
     location,
+    participants,
+    createdAt,
   }: EventModel): Event {
-    return new Event(
+    const event = new Event(
       id,
       name,
       startTime,
@@ -39,5 +49,16 @@ export class EventSchemaFactory
       sports,
       location,
     );
+
+    event._createdAt = createdAt;
+    if (participants?.length) {
+      participants.forEach((participant) =>
+        event.addParticipant(
+          this.userSchemaFactory.createFromSchema(participant),
+        ),
+      );
+    }
+
+    return event;
   }
 }

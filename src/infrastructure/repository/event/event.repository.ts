@@ -3,6 +3,7 @@ import { BaseRepository } from 'src/infrastructure/repository/common/base-reposi
 import { EventSchemaFactory } from './event.schema.factory';
 import { EventModel } from 'src/presentation/graphql/models/event.model';
 import Event from 'src/domain/event/Event';
+import { QueryOptionsDto } from 'src/application/dtos/common/queryOptions.dto';
 
 @Injectable()
 export class EventRepository extends BaseRepository<EventModel, Event> {
@@ -10,7 +11,7 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
     super('event', eventSchemaFactory);
   }
 
-  async createOne(event: Event): Promise<Event> {
+  async createOne(event: Event, creatorId: string): Promise<Event> {
     const data = this.entitySchemaFactory.create(event);
 
     const entityDocument = await this.prismaService.event.create({
@@ -19,6 +20,9 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
         ...data,
         location: {
           create: data.location,
+        },
+        participants: {
+          connect: [{ id: creatorId }],
         },
       },
       include: {
@@ -33,8 +37,36 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
 
     return this.entitySchemaFactory.createFromSchema(entityDocument);
   }
-  async findManyEvents(): Promise<Event[]> {
+
+  async findManyEvents(queryOptions: QueryOptionsDto): Promise<Event[]> {
+    const { search, paginationOptions } = queryOptions || {};
+    const { take, skip, orderBy } = paginationOptions || {};
+
     const data = await this.prismaService.event.findMany({
+      take,
+      skip,
+      where: {
+        OR: [
+          {
+            name: {
+              contains: search,
+              mode: 'insensitive',
+            },
+          },
+          {
+            location: {
+              city: {
+                contains: search,
+                mode: 'insensitive',
+              },
+              state: {
+                contains: search,
+                mode: 'insensitive',
+              },
+            },
+          },
+        ],
+      },
       include: {
         location: true,
         participants: {
@@ -43,10 +75,17 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
           },
         },
       },
+      orderBy: [
+        {
+          createdAt: orderBy ?? 'desc',
+        },
+      ],
     });
 
-    return data.map((event) =>
+    const returnData = data.map((event) =>
       this.entitySchemaFactory.createFromSchema(event),
     );
+
+    return returnData;
   }
 }

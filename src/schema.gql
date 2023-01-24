@@ -71,7 +71,7 @@ input PaginationInput {
 }
 
 type Query {
-  getManyEvents: [EventModel!]!
+  getManyEvents(QueryOptionsInput: QueryOptionsInput): [EventModel!]!
   getManyUsers(QueryOptionsInput: QueryOptionsInput): [UserModel!]!
   getUserByEmail(email: String!): UserModel!
   getUserById(id: String!): UserModel!

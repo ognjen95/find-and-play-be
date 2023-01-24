@@ -14,7 +14,7 @@ import { EventsModule } from './presentation/graphql/modules/event.module';
       autoSchemaFile: join(process.cwd(), 'src/schema.gql'),
       sortSchema: true,
       cors: {
-        origin: ['http://localhost:3000', 'https://dev.un1flix.com'],
+        origin: ['http://localhost:3000'],
         methods: ['GET', 'HEAD', 'PUT', 'PATCH', 'POST', 'DELETE', 'OPTIONS'],
         credentials: true,
         preflightContinue: false,
@@ -27,6 +27,7 @@ import { EventsModule } from './presentation/graphql/modules/event.module';
           'Access-Control-Allow-Origin',
           'Origin',
           'Access-Control-Allow-Methods',
+          'user',
         ],
       },
       installSubscriptionHandlers: true,

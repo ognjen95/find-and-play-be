@@ -2,9 +2,10 @@ import { AggregateRoot } from '@nestjs/cqrs';
 import User from '../user/User';
 
 export default class Event extends AggregateRoot {
-  private readonly participants?: User[];
-  private readonly createdAt: Date;
+  private participants: User[];
+  private createdAt: Date;
   private readonly image: string;
+
   constructor(
     private readonly id: string,
     private readonly name: string,
@@ -33,24 +34,31 @@ export default class Event extends AggregateRoot {
   getStartTime(): Date {
     return this.startTime;
   }
+
   getEndTime(): Date {
     return this.endTime;
   }
+
   getCreatedAt(): Date {
     return this.createdAt;
   }
+
   getParticipants(): User[] {
     return this.participants;
   }
+
   getDescription(): string {
     return this.description;
   }
+
   getSports(): string[] {
     return this.sports;
   }
+
   getImage(): string {
     return this.image;
   }
+
   getLocation(): {
     lng: number;
     lat: number;
@@ -60,5 +68,17 @@ export default class Event extends AggregateRoot {
     return {
       ...this.location,
     };
+  }
+
+  addParticipant(participant: User) {
+    const participants = [];
+
+    participants.push(participant);
+
+    this.participants = participants;
+  }
+
+  set _createdAt(createdAt: Date) {
+    this.createdAt = createdAt;
   }
 }

@@ -1,5 +1,5 @@
 import { EventRepository } from 'src/infrastructure/repository/event/event.repository';
-import FindManyEventsHandler from './find-many-events.ts/find-many-users.handler';
+import FindManyEventsHandler from './find-many-events.ts/find-many-events.handler';
 
 export const EventQueryHandlers = [
   {
