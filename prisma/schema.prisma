@@ -23,11 +23,19 @@ model User {
   reliability Int      @default(100)
   stamina     Int      @default(100)
 
-  clubs    Club[]
-  sports   String[]
+  clubs  Club[]
+  sports String[]
   // sports   Sport[]
+
   location Location @relation(references: [id], fields: [locationId])
-  events   Event[]
+
+  Event   Event?  @relation(fields: [eventId], references: [id])
+  eventId String?
+
+  AdminOfEvents Event[] @relation("admin")
+
+  EventRequests EventRequests[]
+  Notification  Notification[]
 
   @@unique([email])
 }
@@ -52,17 +60,38 @@ model Sport {
 }
 
 model Event {
-  id           String   @id @default(uuid())
-  name         String
-  description  String
-  image        String?
-  createdAt    DateTime @default(now())
-  participants User[]
-  startTime    DateTime
-  endTime      DateTime
-  sports       String[]
-  location     Location @relation(fields: [locationId], references: [id])
-  locationId   String
+  id            String          @id @default(uuid())
+  name          String
+  description   String
+  image         String?
+  createdAt     DateTime        @default(now())
+  startTime     DateTime
+  endTime       DateTime
+  sports        String[]
+  location      Location        @relation(fields: [locationId], references: [id])
+  locationId    String
+  EventRequests EventRequests[]
+  participants  User[]
+  admins        User[]          @relation("admin")
+  Notification  Notification[]
+}
+
+model EventRequests {
+  id             String  @id @default(uuid())
+  isApproved     Boolean @default(false)
+  requestsToJoin User    @relation(fields: [userId], references: [id])
+  event          Event   @relation(fields: [eventId], references: [id])
+  eventId        String
+  userId         String
+}
+
+model Notification {
+  id      String  @id @default(uuid())
+  event   Event   @relation(fields: [eventId], references: [id])
+  eventId String
+  user    User    @relation(fields: [userId], references: [id])
+  userId  String
+  isSeen  Boolean @default(false)
 }
 
 model Club {
