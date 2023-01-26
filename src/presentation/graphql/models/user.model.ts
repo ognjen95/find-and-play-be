@@ -37,5 +37,5 @@ export class UserModel {
   stamina: number;
 
   @Field(() => LocationModel, { nullable: true })
-  location: LocationModel;
+  location?: LocationModel;
 }

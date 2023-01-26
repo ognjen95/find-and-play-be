@@ -29,13 +29,14 @@ model User {
 
   location Location @relation(references: [id], fields: [locationId])
 
-  Event   Event?  @relation(fields: [eventId], references: [id])
-  eventId String?
+  Event Event[]
 
   AdminOfEvents Event[] @relation("admin")
 
-  EventRequests EventRequests[]
-  Notification  Notification[]
+  SentEventRequests   EventRequests[]
+  RequestsForApproval EventRequests[] @relation("reqForApproval")
+
+  Notification Notification[]
 
   @@unique([email])
 }
@@ -70,19 +71,21 @@ model Event {
   sports        String[]
   location      Location        @relation(fields: [locationId], references: [id])
   locationId    String
-  EventRequests EventRequests[]
+  eventRequests EventRequests[]
   participants  User[]
   admins        User[]          @relation("admin")
-  Notification  Notification[]
+  notification  Notification[]
 }
 
 model EventRequests {
-  id             String  @id @default(uuid())
-  isApproved     Boolean @default(false)
-  requestsToJoin User    @relation(fields: [userId], references: [id])
-  event          Event   @relation(fields: [eventId], references: [id])
-  eventId        String
-  userId         String
+  id          String  @id @default(uuid())
+  isApproved  Boolean @default(false)
+  requestFrom User    @relation(fields: [userId], references: [id])
+  requestFor  User[]  @relation("reqForApproval")
+
+  event   Event  @relation(fields: [eventId], references: [id])
+  eventId String
+  userId  String
 }
 
 model Notification {

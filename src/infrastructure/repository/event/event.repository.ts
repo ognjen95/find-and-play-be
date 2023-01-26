@@ -4,6 +4,8 @@ import { EventSchemaFactory } from './event.schema.factory';
 import { EventModel } from 'src/presentation/graphql/models/event.model';
 import Event from 'src/domain/event/Event';
 import { QueryOptionsDto } from 'src/application/dtos/common/queryOptions.dto';
+import { EventRequest } from 'src/domain/event/EventRequest';
+import User from 'src/domain/user/User';
 
 @Injectable()
 export class EventRepository extends BaseRepository<EventModel, Event> {
@@ -24,6 +26,12 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
         participants: {
           connect: [{ id: creatorId }],
         },
+        admins: {
+          connect: [{ id: creatorId }],
+        },
+        eventRequests: {
+          connect: [],
+        },
       },
       include: {
         location: true,
@@ -32,6 +40,7 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
             location: true,
           },
         },
+        eventRequests: true,
       },
     });
 
@@ -87,5 +96,40 @@ export class EventRepository extends BaseRepository<EventModel, Event> {
     );
 
     return returnData;
+  }
+
+  async joinRequest(eventRequest: EventRequest, adminsIds: [{ id: string }]) {
+    const data = eventRequest.toObject;
+
+    await this.prismaService.eventRequests.create({
+      data: {
+        ...data,
+        requestFor: {
+          connect: adminsIds,
+        },
+      },
+      include: {
+        requestFrom: true,
+        requestFor: true,
+      },
+    });
+  }
+
+  async findOneById(eventId: string): Promise<Event> {
+    const entityDocument = await this.prismaService.event.findUnique({
+      where: {
+        id: eventId,
+      },
+      include: {
+        location: true,
+        admins: true,
+        participants: true,
+        eventRequests: true,
+      },
+    });
+
+    if (!entityDocument) return null;
+
+    return this.entitySchemaFactory.createFromSchema(entityDocument);
   }
 }

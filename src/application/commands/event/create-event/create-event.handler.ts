@@ -1,5 +1,5 @@
 import { CommandHandler, ICommandHandler } from '@nestjs/cqrs';
-import { IEventRepository } from 'src/application/interfaces/event/user.repository.interface';
+import { IEventRepository } from 'src/application/interfaces/event/event.repository.interface';
 import { IUserRepository } from 'src/application/interfaces/user/user.repository.interface';
 import Event from 'src/domain/event/Event';
 import { v4 as uuid } from 'uuid';

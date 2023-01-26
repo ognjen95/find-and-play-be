@@ -1,5 +1,5 @@
 import { IQueryHandler, QueryHandler } from '@nestjs/cqrs';
-import { IEventRepository } from 'src/application/interfaces/event/user.repository.interface';
+import { IEventRepository } from 'src/application/interfaces/event/event.repository.interface';
 import Event from 'src/domain/event/Event';
 import { FindManyEventsQuery } from './find-many-events.query';
 

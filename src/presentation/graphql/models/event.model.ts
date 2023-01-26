@@ -1,4 +1,5 @@
 import { Field, ObjectType } from '@nestjs/graphql';
+import { EventRequestModel } from './eventRequest.model';
 import { LocationModel } from './location.model';
 import { UserModel } from './user.model';
 
@@ -29,8 +30,14 @@ export class EventModel {
   endTime: Date;
 
   @Field(() => LocationModel)
-  location: LocationModel;
+  location?: LocationModel;
 
   @Field(() => [UserModel], { nullable: true })
   participants?: UserModel[];
+
+  @Field(() => [UserModel], { nullable: true })
+  admins?: UserModel[];
+
+  @Field(() => [EventRequestModel], { nullable: true })
+  eventRequests?: EventRequestModel[];
 }

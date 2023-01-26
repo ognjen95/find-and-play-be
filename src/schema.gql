@@ -32,9 +32,11 @@ A date-time string at UTC, such as 2019-12-03T09:54:33Z, compliant with the date
 scalar DateTime
 
 type EventModel {
+  admins: [UserModel!]
   createdAt: DateTime!
   description: String!
   endTime: DateTime!
+  eventRequests: [EventRequestModel!]
   id: String!
   image: String
   location: LocationModel!
@@ -42,6 +44,13 @@ type EventModel {
   participants: [UserModel!]
   sports: [String!]!
   startTime: DateTime!
+}
+
+type EventRequestModel {
+  eventId: String!
+  id: String!
+  isApproved: Boolean!
+  userId: String!
 }
 
 input LocationInput {
@@ -60,6 +69,7 @@ type LocationModel {
 
 type Mutation {
   createEvent(CreateEventInput: CreateEventInput!): EventModel!
+  createJoinRequest(eventId: String!): EventRequestModel
   createUser(CreateUserInput: CreateUserInput!): UserModel!
 }
 

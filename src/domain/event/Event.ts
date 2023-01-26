@@ -1,10 +1,14 @@
+import { BadRequestException } from '@nestjs/common/exceptions';
 import { AggregateRoot } from '@nestjs/cqrs';
 import User from '../user/User';
+import { EventRequest } from './EventRequest';
 
 export default class Event extends AggregateRoot {
-  private participants: User[];
+  private participants: User[] = [];
+  private admins?: User[] = [];
   private createdAt: Date;
-  private readonly image: string;
+  private image: string;
+  private eventRequests: EventRequest[] = [];
 
   constructor(
     private readonly id: string,
@@ -70,6 +74,21 @@ export default class Event extends AggregateRoot {
     };
   }
 
+  get _admins() {
+    return [...this.admins];
+  }
+  set _createdAt(createdAt: Date) {
+    this.createdAt = createdAt;
+  }
+
+  set _eventRequests(eventReq: EventRequest[]) {
+    this.eventRequests = eventReq;
+  }
+
+  set _addAdmins(admins: User[]) {
+    this.admins = admins;
+  }
+
   addParticipant(participant: User) {
     const participants = [];
 
@@ -78,7 +97,23 @@ export default class Event extends AggregateRoot {
     this.participants = participants;
   }
 
-  set _createdAt(createdAt: Date) {
-    this.createdAt = createdAt;
+  addNewEventRequest(eventRequest: EventRequest) {
+    const isAlreadyRequestSent = this.eventRequests.some(
+      (req) => req._userId === eventRequest._userId,
+    );
+
+    if (isAlreadyRequestSent) {
+      throw new BadRequestException('Request already sent');
+    }
+
+    const alreadyJoinedEvent = this.participants.some(
+      (participant) => participant.getId() === eventRequest._userId,
+    );
+
+    if (alreadyJoinedEvent) {
+      throw new BadRequestException('User already joined this event');
+    }
+
+    this.eventRequests.push(eventRequest);
   }
 }
