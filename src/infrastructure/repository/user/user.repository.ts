@@ -107,6 +107,7 @@ export class UserRepository
       where: { id },
       include: {
         location: true,
+        requestsForApproval: true,
       },
     });
 

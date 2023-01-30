@@ -1,6 +1,8 @@
 import { Injectable } from '@nestjs/common';
+import { plainToInstance } from 'class-transformer';
 import Event from 'src/domain/event/Event';
 import { EventRequest } from 'src/domain/event/EventRequest';
+import User from 'src/domain/user/User';
 import { EntitySchemaFactory } from 'src/infrastructure/repository/common/model-schema.factory';
 import { EventModel } from 'src/presentation/graphql/models/event.model';
 import { UserSchemaFactory } from '../user/user.schema.factory';
@@ -57,18 +59,14 @@ export class EventSchemaFactory
 
     if (participants?.length) {
       participants.forEach((participant) =>
-        event.addParticipant(
-          this.userSchemaFactory.createFromSchema(participant),
-        ),
+        event.addParticipant(plainToInstance(User, participant)),
       );
     }
 
     if (admins?.length) {
       const adminArray = [];
 
-      admins.forEach((admin) =>
-        adminArray.push(this.userSchemaFactory.createFromSchema(admin)),
-      );
+      admins.forEach((admin) => adminArray.push(plainToInstance(User, admin)));
 
       event._addAdmins = adminArray;
     }

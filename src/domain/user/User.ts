@@ -1,9 +1,11 @@
 import { AggregateRoot } from '@nestjs/cqrs';
+import { Expose } from 'class-transformer';
 
+@Expose()
 export default class User extends AggregateRoot {
   private readonly stamina: number;
   private readonly reliability: number;
-  private readonly createdAt: Date;
+  private createdAt: Date;
   private readonly image: string;
   constructor(
     private readonly id: string,
@@ -67,5 +69,9 @@ export default class User extends AggregateRoot {
     return {
       ...this.location,
     };
+  }
+
+  get _id() {
+    return this.id;
   }
 }

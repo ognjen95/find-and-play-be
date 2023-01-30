@@ -1,5 +1,6 @@
 import { BadRequestException } from '@nestjs/common/exceptions';
 import { AggregateRoot } from '@nestjs/cqrs';
+import { plainToInstance } from 'class-transformer';
 import User from '../user/User';
 import { EventRequest } from './EventRequest';
 
@@ -48,7 +49,7 @@ export default class Event extends AggregateRoot {
   }
 
   getParticipants(): User[] {
-    return this.participants;
+    return [...this.participants];
   }
 
   getDescription(): string {
@@ -74,9 +75,14 @@ export default class Event extends AggregateRoot {
     };
   }
 
-  get _admins() {
-    return [...this.admins];
+  get _id() {
+    return this.id;
   }
+
+  get _admins() {
+    return plainToInstance(User, this.admins);
+  }
+
   set _createdAt(createdAt: Date) {
     this.createdAt = createdAt;
   }
@@ -90,30 +96,34 @@ export default class Event extends AggregateRoot {
   }
 
   addParticipant(participant: User) {
-    const participants = [];
-
-    participants.push(participant);
-
-    this.participants = participants;
+    this.participants.push(participant);
   }
 
   addNewEventRequest(eventRequest: EventRequest) {
-    const isAlreadyRequestSent = this.eventRequests.some(
-      (req) => req._userId === eventRequest._userId,
-    );
+    if (this.eventRequests.length) {
+      const eventRequests = plainToInstance(EventRequest, this.eventRequests);
 
-    if (isAlreadyRequestSent) {
-      throw new BadRequestException('Request already sent');
+      const isAlreadyRequestSent = eventRequests.some(
+        (req) => req._userId === eventRequest._userId,
+      );
+
+      if (isAlreadyRequestSent) {
+        throw new BadRequestException('Request already sent');
+      }
     }
+    if (this.participants.length) {
+      const participants = plainToInstance(User, this.participants);
+      const alreadyJoinedEvent = participants.some(
+        (participant) => participant._id === eventRequest._userId,
+      );
 
-    const alreadyJoinedEvent = this.participants.some(
-      (participant) => participant.getId() === eventRequest._userId,
-    );
-
-    if (alreadyJoinedEvent) {
-      throw new BadRequestException('User already joined this event');
+      if (alreadyJoinedEvent) {
+        throw new BadRequestException('User already joined this event');
+      }
     }
 
     this.eventRequests.push(eventRequest);
+
+    return this;
   }
 }

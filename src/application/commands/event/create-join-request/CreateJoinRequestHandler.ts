@@ -18,15 +18,16 @@ class CreteJoinRequestHandler
 
     const event = await this.eventRepository.findOneById(eventId);
 
-    console.log(event);
-
     event.addNewEventRequest(eventReq);
 
     const adminsIds = event?._admins?.map((admin) => ({
-      id: admin.getId(),
+      id: admin._id,
     }));
 
-    return await this.eventRepository.joinRequest(eventReq, adminsIds);
+    const req = await this.eventRepository.joinRequest(eventReq, adminsIds);
+    // const event  = await this.eventRepository.joinRequest(eventReq, adminsIds);
+
+    return req;
   }
 }
 

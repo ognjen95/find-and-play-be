@@ -29,14 +29,14 @@ model User {
 
   location Location @relation(references: [id], fields: [locationId])
 
-  Event Event[]
+  event Event[]
 
-  AdminOfEvents Event[] @relation("admin")
+  adminOfEvents Event[] @relation("admin")
 
-  SentEventRequests   EventRequests[]
-  RequestsForApproval EventRequests[] @relation("reqForApproval")
+  sentEventRequests   EventRequests[]
+  requestsForApproval EventRequests[] @relation("reqForApproval")
 
-  Notification Notification[]
+  notification Notification[]
 
   @@unique([email])
 }

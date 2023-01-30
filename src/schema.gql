@@ -50,6 +50,8 @@ type EventRequestModel {
   eventId: String!
   id: String!
   isApproved: Boolean!
+  requestFor: [UserModel!]
+  requestFrom: UserModel
   userId: String!
 }
 
@@ -68,9 +70,11 @@ type LocationModel {
 }
 
 type Mutation {
+  approveEventRequest(eventRequestId: String!): EventRequestModel
   createEvent(CreateEventInput: CreateEventInput!): EventModel!
   createJoinRequest(eventId: String!): EventRequestModel
   createUser(CreateUserInput: CreateUserInput!): UserModel!
+  deleteEventRequest(eventRequestId: String!): EventRequestModel
 }
 
 input PaginationInput {
@@ -85,6 +89,7 @@ type Query {
   getManyUsers(QueryOptionsInput: QueryOptionsInput): [UserModel!]!
   getUserByEmail(email: String!): UserModel!
   getUserById(id: String!): UserModel!
+  getUsersEvents(QueryOptionsInput: QueryOptionsInput): [EventModel!]!
 }
 
 input QueryOptionsInput {
